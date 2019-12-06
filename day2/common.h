@@ -1,3 +1,6 @@
+#ifndef ADVENTOFCODE2019_COMMON_H
+#define ADVENTOFCODE2019_COMMON_H
+
 #include <iostream>
 #include <assert.h>
 #include <fstream>
@@ -5,13 +8,11 @@
 #include <vector>
 #include <sstream>
 
-#define NDEBUG
-
 using namespace std;
 
-vector<int> load_opcodes(const string & filename)
+vector<long> load_opcodes(const string & filename)
 {
-    vector<int> opcodes;
+    vector<long> opcodes;
     ifstream infile(filename);
     ostringstream ss;
     char c;
@@ -31,9 +32,9 @@ vector<int> load_opcodes(const string & filename)
     return opcodes;
 }
 
-void run_machine(vector<int> & opcodes)
+void run_machine(vector<long> & opcodes)
 {
-    int pos = 0;
+    long pos = 0;
     while(true)
     {
         if(opcodes[pos]==1)
@@ -53,18 +54,4 @@ void run_machine(vector<int> & opcodes)
     }
 }
 
-int main(int argc, char ** argv)
-{
-    if(argc != 2)
-    {
-        cout << "Please specify the a file with the list of modules to calculate the fuel requirements" << endl;
-        return 1;
-    }
-
-    auto opcodes=load_opcodes(argv[1]);
-    opcodes[1]=12;
-    opcodes[2]=2;
-    run_machine(opcodes);
-
-    cout << opcodes[0] << endl;
-}
+#endif //ADVENTOFCODE2019_COMMON_H
