@@ -1,19 +1,31 @@
 #include <iostream>
-#include <assert.h>
 #include <fstream>
 #include <cctype>
 #include <locale>
 
-#define NDEBUG
-
 using namespace std;
+
+long calculate_fuel_for_fuel(long mass)
+{
+    auto fuel_needed = mass / 3 - 2;
+    if (fuel_needed <= 0)
+    {
+        return 0;
+    }
+    else
+    {
+        fuel_needed += calculate_fuel_for_fuel(fuel_needed);
+    }
+    return fuel_needed;
+}
 
 long fuel_needed_for_a_module(long mass)
 {
-    return mass/3 - 2;
+    auto fuel_needed = mass/3 - 2;
+    return calculate_fuel_for_fuel(fuel_needed) + fuel_needed;
 }
 
-long long calculate_fuel_requirements(const string & filename)
+long calculate_fuel_requirements(const string & filename)
 {
     long long sum;
     ifstream infile(filename);
@@ -37,15 +49,11 @@ long long calculate_fuel_requirements(const string & filename)
 
 int main(int argc, char ** argv)
 {
-    assert( fuel_needed_for_a_module(12) == 2 );
-    assert( fuel_needed_for_a_module(14) == 2 );
-    assert( fuel_needed_for_a_module(1969) == 654 );
-    assert( fuel_needed_for_a_module(100756) == 33583 );
     if(argc != 2)
     {
         cout << "Please specify the a file with the list of modules to calculate the fuel requirements" << endl;
         return 1;
     }
-
-    cout << "Fuel requirements: " << calculate_fuel_requirements(argv[1]) << endl;
+    auto fuel_requirements =  calculate_fuel_requirements(argv[1]);
+    cout << "Fuel requirements: " << fuel_requirements << endl;
 }
