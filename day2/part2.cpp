@@ -18,7 +18,7 @@ int main(int argc, char ** argv)
             auto opcodes = loaded_opcodes;
             opcodes[1] = noun;
             opcodes[2] = verb;
-            
+
             run_machine(opcodes);
 
             if(opcodes[0] == expected_output)

@@ -21,7 +21,7 @@ vector<long> load_opcodes(const string & filename)
     {
         if(c == ',')
         {
-            opcodes.push_back(stoll(ss.str()));
+            opcodes.push_back(stol(ss.str()));
             ss.str("");
         }
         else
