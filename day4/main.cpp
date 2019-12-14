@@ -29,7 +29,7 @@ int getNthDigit(int number, int position)
     return ret;
 }
 
-bool twoDigitsAreTheSame(unsigned number)
+bool atLeastTwoDigitsAreTheSame(unsigned number)
 {
     auto length=getNumberLength(number);
     for(int i = 0; i!=length - 1; ++i)
@@ -37,6 +37,35 @@ bool twoDigitsAreTheSame(unsigned number)
         if (getNthDigit(number,i) == getNthDigit(number,i +1)) return true;
     }
     return false;
+}
+
+bool twoDigitsAreTheSame(unsigned number)
+{
+
+    cout << "-----" << endl;
+    cout << number << endl;
+    auto length=getNumberLength(number);
+    int lastDigit=10;
+    int count=1;
+    int min=9;
+
+    int i=0;
+    auto currentDigit = getNthDigit(number,i);
+    while(i != length)
+    {
+            ++i;
+            if(currentDigit==getNthDigit(number,i))
+            {
+                ++count;
+            } else
+            {
+                if(count < min && count >= 2) min = count;
+                count=1;
+                currentDigit=getNthDigit(number,i);
+            }
+    }
+
+    return min==2;
 }
 
 bool digitsNeverDecrease(unsigned number)
@@ -57,8 +86,21 @@ vector<unsigned> getPasswordsMatchingCriteria(unsigned lowerBound, unsigned uppe
     vector<unsigned> ret;
     for(auto i=lowerBound; i!=upperBound; ++i)
     {
-        if(!twoDigitsAreTheSame(i)) continue;
+        if(!atLeastTwoDigitsAreTheSame(i)) continue;
         if(!digitsNeverDecrease(i)) continue;
+        ret.push_back(i);
+    }
+    return ret;
+}
+
+vector<unsigned> getPasswordsMatchingCriteria_part2(unsigned lowerBound, unsigned upperBound)
+{
+    vector<unsigned> ret;
+    for(auto i=lowerBound; i!=upperBound; ++i)
+    {
+        if(!atLeastTwoDigitsAreTheSame(i)) continue;
+        if(!digitsNeverDecrease(i)) continue;
+        if(!twoDigitsAreTheSame(i)) continue;
         ret.push_back(i);
     }
     return ret;
@@ -67,10 +109,13 @@ vector<unsigned> getPasswordsMatchingCriteria(unsigned lowerBound, unsigned uppe
 void runTests()
 {
     assert( getNthDigit(12345,1) == 2 );
-    assert( twoDigitsAreTheSame(126667));
-    assert(!twoDigitsAreTheSame(123457));
+    assert(atLeastTwoDigitsAreTheSame(126667));
+    assert(!atLeastTwoDigitsAreTheSame(123457));
     assert( digitsNeverDecrease(123457));
     assert(!digitsNeverDecrease(666555));
+    assert(twoDigitsAreTheSame(111166));
+    assert(!twoDigitsAreTheSame(123666));
+    assert(twoDigitsAreTheSame(147880));
 }
 
 int main(int argc, char ** argv)
@@ -85,12 +130,21 @@ int main(int argc, char ** argv)
 
     unsigned lowerBound = atoi(argv[1]);
     unsigned upperBound = atoi(argv[2]);
+    if (lowerBound > upperBound)
+    {
+        cout << "The upper bound " << lowerBound << " can't be bigger than"
+                "the upper bound " << upperBound << endl;
+        return 1;
+    }
 
     auto passwords = getPasswordsMatchingCriteria(lowerBound, upperBound);
-    cout << "The following passwords were found:";
+    cout << "(Part 1) Number of passwords: " << passwords.size() << endl;
+
+    passwords = getPasswordsMatchingCriteria_part2(lowerBound, upperBound);
+    cout << "The following passwords were found:" << endl;
     for (const auto & e : passwords)
     {
-        cout << " -" <<  e << endl;
+        cout << " * " <<  e << endl;
     }
-    cout << "Number of passwords: " << passwords.size() << endl;
+    cout << "(Part 2) Number of passwords: " << passwords.size() << endl;
 }
