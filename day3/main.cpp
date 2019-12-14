@@ -4,7 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <math.h>
+#include <limits>
 
 using namespace std;
 
@@ -19,26 +19,6 @@ int smallest(int a,int b)
     if(a<b) return a;
     return b;
 }
-
-struct Point
-{
-    int x,y,steps;
-    Point(int _x, int _y) : x(_x), y(_y), steps(_steps) {}
-    Point() {}
-    void print()
-    {
-        cout << "(" << x << "," << y << ")" << endl;
-    }
-};
-
-bool operator < (const Point & lhs, const Point & rhs)
-{
-    if(lhs.x<rhs.x) return true;
-    if(lhs.x>rhs.x) return false;
-    return lhs.y<rhs.y;
-}
-
-bool operator < (const pair<Point,int> & lhs, const Point & rhs)
 
 struct Board
 {
@@ -62,23 +42,21 @@ struct Board
 public:
     int smallestManhattanDistanceFrom(int x, int y)
     {
-        Point ret;
-        long smallestDist=9999999999;
+        int comparingWithX, comparingWithY;
+        long smallestDist=numeric_limits<long>::max();
         for (const auto & e : board)
         {
-            Point comp;
-            comp.x=e.first;
+            comparingWithX=e.first;
             for(const auto & f : e.second)
             {
-                comp.y=f.first;
+                comparingWithY=f.first;
                 if(f.second)
                 {
-                    auto dist = abs(x-comp.x) + abs(y-comp.y);
-                    cout << "x: " << x << "y: " << y << "comp.x: " << comp.x << "comp.y: " << comp.y << " dist:" << dist << endl;
+                    auto dist = abs(x-comparingWithX) + abs(y-comparingWithY);
+                    cout << "x: " << x << "y: " << y << "comp.x: " << comparingWithX << "comp.y: " << comparingWithY << " dist:" << dist << endl;
 
                     if(dist < smallestDist)
                     {
-                        ret=comp;
                         smallestDist=dist;
                         cout << "Smallest: " << dist;
                     }
@@ -221,6 +199,7 @@ public:
         string line;
         while(getline(fs,line))
         {
+            cout << line << endl;
             boards.push_back(load_line(line));
         }
 
@@ -231,6 +210,7 @@ public:
     {
         if(boards.size()!=2) {
             cout << "The number of boards is different than 2, can't intersect." << endl;
+            exit(1);
         }
         else {
             auto intersection = boards[0];
