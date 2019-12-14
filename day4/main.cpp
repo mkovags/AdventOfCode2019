@@ -41,9 +41,6 @@ bool atLeastTwoDigitsAreTheSame(unsigned number)
 
 bool twoDigitsAreTheSame(unsigned number)
 {
-
-    cout << "-----" << endl;
-    cout << number << endl;
     auto length=getNumberLength(number);
     int lastDigit=10;
     int count=1;
