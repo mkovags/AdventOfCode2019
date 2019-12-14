@@ -53,12 +53,10 @@ public:
                 if(f.second)
                 {
                     auto dist = abs(x-comparingWithX) + abs(y-comparingWithY);
-                    cout << "x: " << x << "y: " << y << "comp.x: " << comparingWithX << "comp.y: " << comparingWithY << " dist:" << dist << endl;
 
                     if(dist < smallestDist)
                     {
                         smallestDist=dist;
-                        cout << "Smallest: " << dist;
                     }
                 }
             }
@@ -73,16 +71,6 @@ public:
         if(x>x1) x1=x;
         if(y<y0) y0=y;
         if(y>y1) y1=y;
-    }
-
-    int getCenterX()
-    {
-        return getCenter(x0,x1);
-    }
-
-    int getCenterY()
-    {
-        return getCenter(y0,y1);
     }
 
     bool getPoint(int x, int y) const
@@ -199,7 +187,6 @@ public:
         string line;
         while(getline(fs,line))
         {
-            cout << line << endl;
             boards.push_back(load_line(line));
         }
 
@@ -233,6 +220,6 @@ int main(int argc, char ** argv)
     BoardManager boardManager;
     boardManager.load_paths(argv[1]);
     auto intersection = boardManager.getIntersection();
-    intersection.print();
-    intersection.smallestManhattanDistanceFrom(0,0);
+    auto smallest = intersection.smallestManhattanDistanceFrom(0,0);
+    cout << "Smallest manhattan distance: " << smallest << endl;
 }
