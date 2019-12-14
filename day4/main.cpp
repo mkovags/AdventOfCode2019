@@ -42,7 +42,6 @@ bool atLeastTwoDigitsAreTheSame(unsigned number)
 bool twoDigitsAreTheSame(unsigned number)
 {
     auto length=getNumberLength(number);
-    int lastDigit=10;
     int count=1;
     int min=9;
 
@@ -129,7 +128,7 @@ int main(int argc, char ** argv)
     unsigned upperBound = atoi(argv[2]);
     if (lowerBound > upperBound)
     {
-        cout << "The upper bound " << lowerBound << " can't be bigger than"
+        cout << "The lower bound " << lowerBound << " can't be bigger than"
                 "the upper bound " << upperBound << endl;
         return 1;
     }
