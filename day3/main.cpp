@@ -25,19 +25,6 @@ struct Board
     int x0=0,x1=0,y0=0,y1=0;
 
     map<int,map<int,bool>> board;
-    void mergeSizes(const Board & board)
-    {
-        print();
-        x0=smallest(x0,board.x0);
-        x1=biggest(x1,board.x1);
-        y0=smallest(y0,board.y0);
-        y1=biggest(y1,board.y1);
-    }
-
-    int getCenter(int a0, int a1)
-    {
-        return (a0+a1) / 2 ;
-    }
 
 public:
     int smallestManhattanDistanceFrom(int x, int y)
